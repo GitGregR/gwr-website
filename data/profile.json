@@ -1,21 +1,21 @@
 {
-  "name": "Alex Morgan",
-  "initials": "AM",
-  "title": "Ph.D. Candidate in Computational Social Science",
-  "affiliation": "Department of Information Science, Cornell University",
+  "name": "Gregory W. Robertson",
+  "initials": "GWR",
+  "title": "Undergrad at UCLA",
+  "affiliation": "College of Letters and Science, Department of Economics",
   "bio": [
-    "I am a Ph.D. candidate in Computational Social Science at Cornell University. My research sits at the intersection of human behavior, digital platforms, and data-driven methods — with a focus on how people navigate information environments and make decisions online.",
-    "I combine large-scale observational studies, online experiments, and machine learning to understand how platform design and algorithmic curation shape what people believe and how they act. My current work focuses on trust, misinformation, and the behavioral effects of recommendation systems.",
-    "Before Cornell, I worked as a data scientist at a civic tech nonprofit and completed a B.S. in Applied Mathematics at the University of Michigan."
+    "I am an undergraduate student at UCLA, majoring in Economics. My research interests include behavioral economics, data science, and the intersection of technology and society.",
+    "I have experience working with large datasets and have developed skills in statistical analysis, machine learning, and programming languages such as Python and R.",
+    "Before UCLA, I completed a B.S. in Applied Mathematics at the University of Michigan."
   ],
   "photo": "assets/photo.jpg",
   "links": {
     "cv": "docs/cv.pdf",
-    "email": "am2345@cornell.edu",
-    "scholar": "https://scholar.google.com/",
-    "github": "https://github.com/",
-    "bluesky": "https://bsky.app/",
-    "linkedin": "https://linkedin.com/",
+    "email": "gwrobertson@g.ucla.edu",
+    "scholar": null,
+    "github": "https://github.com/GitGregR",
+    "bluesky": null,
+    "linkedin": "https://www.linkedin.com/in/gregory-w-robertson/",
     "orcid": null
   }
 }
