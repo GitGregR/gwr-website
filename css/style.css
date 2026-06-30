@@ -647,7 +647,7 @@ details.abstract[open] summary .arrow { transform: rotate(90deg); }
    ════════════════════════════════════════════════════ */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
