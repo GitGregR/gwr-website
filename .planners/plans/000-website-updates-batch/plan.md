@@ -1,7 +1,7 @@
 ---
 id: 0
 slug: website-updates-batch
-status: draft
+status: active
 branch:
 created: 2026-06-30T15:10:38-07:00
 concluded:
