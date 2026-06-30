@@ -1,11 +1,11 @@
 ---
 id: 0
 slug: website-updates-batch
-status: active
-branch:
+status: done
+branch: null
 created: 2026-06-30T15:10:38-07:00
-concluded:
-pr:
+concluded: 2026-06-30T15:21:42-07:00
+pr: null
 ---
 
 # Sidebar email copy button, gothic-G favicon, resume sync, profile photo crop
@@ -153,4 +153,49 @@ Work:
 - Any further crop/retouch iteration beyond the confirmed box — if the user
   wants a different framing after seeing the result, treat as a follow-up.
 - Removing/renaming the original awards-ceremony photo.
+
+## Log
+
+Implemented directly on `main` (no branch/PR — this repo's history is all
+direct commits, and that convention was kept for this plan; confirmed with
+the user during `/planners implement`).
+
+- `7889c68` — Sync resume PDF from resume repo
+- `8cf1616` — Replace placeholder photo with cropped profile headshot (crop
+  box `(2570, 1070, 3470, 1970)` on the source 4032×3024 image, confirmed
+  visually during planning and again after cropping)
+- `0f92724` — Add gothic-G favicon (UnifrakturMaguntia rendered in
+  `--sidebar-bg`/`--bg`, exported as `favicon.ico` + 16/32 PNG +
+  apple-touch-icon, wired into `index.html` `<head>`)
+- `3e04051` — Add sidebar email click-to-copy button (reused the existing
+  About-section pattern via a new shared `wireEmailCopy()` helper in
+  `js/main.js`, rendered via `.social-chip` styling to match the sidebar's
+  existing dark-background chips)
+
+Verified live with a headless-Chromium (Playwright) screenshot pass: sidebar
+chip fits within the 278px sidebar without wrapping, click-to-copy flips to
+"Copied!" and resets, the cropped photo renders correctly as both the sidebar
+avatar and About-section photo, and the favicon files resolve over HTTP with
+no console errors. A `low`-effort `/code-review` pass on the diff found no
+issues.
+
+## Retrospective
+
+- Batching four small, independent asset/content updates into one plan
+  worked well — none had cross-dependencies, so they could be implemented
+  and committed as separate logical commits in sequence.
+- For repos with no PR history (a personal GitHub Pages site, all-direct-to-
+  main), it's worth confirming the implement workflow (branch+PR vs. direct
+  commit) before activating rather than defaulting to the planners-standard
+  branch/worktree/PR flow — asked the user up front via AskUserQuestion.
+  The planners skill doesn't currently special-case this; worth a future
+  tweak if it recurs across repos.
+- No browser-automation tooling existed in this environment; standing up
+  Playwright + Chromium via `uv venv` + `playwright install chromium`
+  (skipping `--with-deps`, which needs sudo) was the path that worked and is
+  reusable for future visual verification in this repo.
+- Design choices made empirically rather than guessed: the favicon font and
+  the photo crop box were both arrived at by rendering candidates and
+  visually inspecting them during planning, before committing to an
+  approach in the plan body.
 
