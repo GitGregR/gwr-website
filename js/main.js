@@ -168,8 +168,6 @@ function renderProfile(p) {
   if (contactEl) {
     contactEl.innerHTML = `
       <p class="contact-intro">
-        If you'd like to discuss my research, potential collaborations, or anything else,
-        the best way to reach me is by email. I aim to respond within a few days.
       </p>
       ${p.links.email
         ? `<a href="mailto:${esc(p.links.email)}" class="contact-email">${ICON.email} ${esc(p.links.email)}</a>`
