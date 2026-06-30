@@ -210,34 +210,134 @@ git remote set-url origin https://github.com/gitgregr/gitgregr.github.io.git
 
 ---
 
-## 7. Final Project Structure
+## 7. Plan-Driven Update Batch (Jun 30)
+
+Later sessions adopted a lightweight planning workflow (the `planners` CLI/skill,
+state tracked under `.planners/`) for batching related changes into one
+reviewable unit instead of ad-hoc one-off edits. Since this repo's history is
+all direct commits to `main` with no branches or pull requests, the plan was
+implemented straight on `main` rather than via the usual feature-branch +
+draft-PR flow (confirmed with the user up front).
+
+**Prompt:** "add a bunch of website updates. Add an email click-to-copy button
+between the college of letters and sciences and the divider seperating it
+from the sections in the lefthand sidebar. Create a favicon for the site
+that is a gothic capital G in-line with the current of the website. Update
+the current gregory-w-robertson-resume.pdf in ~/repos/website to match the
+updated gregory-w-robertson-resume.pdf in ~/repos/resume. Replace the
+placeholder photo.jpg with the photo I just added to assets, crop it so it
+is a profile image and keep the original image."
+
+This was scoped into plan `.planners/plans/000-website-updates-batch/plan.md`
+and implemented as four commits:
+
+- **Resume sync** — copied the freshly-built PDF from the separate
+  `~/repos/resume` (LaTeX source) repo over `docs/gregory-w-robertson-resume.pdf`.
+  **Commit:** `7889c68` — "Sync resume PDF from resume repo"
+- **Profile photo crop** — cropped the newly-added awards-ceremony source
+  photo to a square headshot (crop box chosen by rendering and visually
+  comparing candidates), replacing the empty `assets/photo.jpg` placeholder.
+  The uncropped original was kept in `assets/` per the request.
+  **Commit:** `8cf1616` — "Replace placeholder photo with cropped profile headshot"
+- **Favicon** — generated from Google Fonts' *UnifrakturMaguntia* (a
+  blackletter/"gothic" face) rendered in the site's own navy/off-white
+  palette, exported as `favicon.ico` plus `assets/favicon/` PNG sizes and an
+  apple-touch-icon, and wired into `index.html`'s `<head>`.
+  **Commit:** `0f92724` — "Add gothic-G favicon"
+- **Sidebar email click-to-copy** — added a copy-to-clipboard email chip
+  between the affiliation line and the nav divider, reusing the existing
+  About-section copy pattern via a shared `wireEmailCopy()` helper in
+  `js/main.js`.
+  **Commit:** `3e04051` — "Add sidebar email click-to-copy button"
+
+Each change was verified live (not just code-read) by standing up a headless
+Chromium browser via Playwright (`uv venv` + `playwright install chromium`,
+since no browser tooling existed in the environment) and screenshotting the
+rendered page. The plan was closed out with a `low`-effort `/code-review`
+pass (no issues found) and a Log/Retrospective appended to the plan file.
+**Commit:** `7479c39` — "plan [close]: 000 - ..."
+
+### Follow-up tweaks (same day)
+
+A few smaller asks followed, each implemented and pushed directly:
+
+- **Resume re-sync** — the resume repo was rebuilt again (an icon-font
+  tweak in the header); re-ran the same copy.
+  **Prompt:** "Update the current gregory-w-robertson-resume.pdf in
+  ~/repos/website to match the updated gregory-w-robertson-resume.pdf in
+  ~/repos/resume"
+  **Commit:** `7093c02` — "Sync resume PDF from resume repo (icon font update)"
+- **Bluesky social link** — the Bluesky icon and `SOCIALS` config already
+  existed in `js/main.js` from the original build; only `links.bluesky` in
+  `data/profile.json` needed a value to make the button appear (sidebar,
+  drawer, and Contact section all share one `renderSocials()` renderer).
+  **Prompt:** "Add a bluesky button with the same functionality as the
+  linkedin and github buttons next to the github and linkedin buttons in
+  the lefthand sidebar and the contacts section, linking it to my bluesky
+  account page https://bsky.app/profile/gregorywrobertson.bsky.social"
+  **Commit:** `0c09999` — "Add Bluesky link to social buttons"
+- **Standard "@" glyph in the sidebar** — Space Mono (the sidebar's
+  monospace font) renders "@" as a stylized swash rather than the usual
+  symbol; the "@" character was wrapped in its own `<span>` and given a
+  plain monospace fallback (`Courier New`) so just that glyph looks normal.
+  **Prompt:** "Could you change the special "@" symbol in the email address
+  at the top left of the sidebar to a standard "@" symbol"
+  **Commit:** `4320e27` — "Use a standard @ glyph in the sidebar email chip"
+- **Contact section email → click-to-copy** — the Contact section's
+  `mailto:` link was swapped for the same click-to-copy pattern used
+  elsewhere, reusing `wireEmailCopy()`; styling is class-based
+  (`.contact-email`) so the look was unaffected by the tag/behavior change.
+  **Prompt:** "Also, make the mailto link in the contacts section for the
+  email a click-to-copy link without changing its current style"
+  **Commit:** `bdfb748` — "Make the Contact section email a click-to-copy control"
+- **Tighten "@" spacing** — swapping the font for just the "@" left visible
+  gaps either side of it (Courier New's glyph has wider side bearings than
+  Space Mono's); pulled in with a negative margin to read flush.
+  **Prompt:** "Can you remove the spaces between the "@" symbol and the
+  letters for the email address in the upper left of the sidebar"
+  **Commit:** `54c0ff2` — "Tighten spacing around the sidebar email @ glyph"
+
+---
+
+## 8. Final Project Structure
 
 ```
 website/
 ├── index.html              ← Structure only, no hardcoded content
+├── favicon.ico              ← Gothic-G favicon (root-level fallback)
 ├── css/
 │   └── style.css           ← All styles (CSS custom properties at top)
 ├── js/
 │   └── main.js             ← Fetches JSON, renders all sections
 ├── data/
-│   ├── profile.json        ← Name, bio, photo path, social links
-│   ├── publications.json   ← Working papers + published papers
-│   ├── news.json           ← News/updates
-│   └── activities.json     ← Teaching, service, talks, software
+│   ├── profile.json        ← Name, bio, photo path, social + CV links
+│   ├── education.json      ← Degrees / schools
+│   ├── activities.json     ← Activities & leadership
+│   ├── skills.json         ← Skills & interests
+│   ├── publications.json   ← Unused legacy file (original "papers" schema)
+│   └── news.json           ← Unused legacy file (News section was removed)
 ├── assets/
-│   └── photo.jpg           ← Profile photo
+│   ├── photo.jpg            ← Cropped profile headshot
+│   ├── <source headshot>.jpg ← Uncropped original, kept for re-cropping
+│   └── favicon/             ← favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png
 ├── docs/
-│   └── cv.pdf              ← CV
+│   └── gregory-w-robertson-resume.pdf  ← Synced from a separate ~/repos/resume (LaTeX) repo
+├── .planners/                ← Plan-driven change tracking (planners CLI/skill)
 ├── .gitignore
-├── README.md               ← Content update guide
-└── CREATION_GUIDE.md       ← This file
+├── README.md                ← Content update guide
+└── website-creation-process.md  ← This file
 ```
+
+`data/publications.json` and `data/news.json` are leftover from the original
+generated site — a later, undocumented session replaced the Publications/News
+sections with Education and Skills, so `js/main.js`'s `loadAll()` only fetches
+`profile`, `education`, `activities`, and `skills` now.
 
 **Live site:** https://gitgregr.github.io/
 
 ---
 
-## 8. Tools Used
+## 9. Tools Used
 
 | Tool | Purpose |
 |------|---------|
@@ -246,3 +346,6 @@ website/
 | WSL (Ubuntu on Windows) | Development environment |
 | GitHub + GitHub Pages | Hosting (free, no build step needed) |
 | `gh` CLI | GitHub authentication and repo management from terminal |
+| `planners` CLI/skill | Plan-driven batching of related changes, tracked under `.planners/` |
+| Playwright + headless Chromium | Live, in-browser verification (screenshots, click-to-copy behavior) before committing UI changes |
+| Python (`uv`) + Pillow | One-off image generation: the favicon render and the profile photo crop |
