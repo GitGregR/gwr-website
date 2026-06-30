@@ -210,14 +210,87 @@ git remote set-url origin https://github.com/gitgregr/gitgregr.github.io.git
 
 ---
 
-## 7. Plan-Driven Update Batch (Jun 30)
+## 7. Further Customisation (Jun 28–30)
 
-Later sessions adopted a lightweight planning workflow (the `planners` CLI/skill,
-state tracked under `.planners/`) for batching related changes into one
-reviewable unit instead of ad-hoc one-off edits. Since this repo's history is
-all direct commits to `main` with no branches or pull requests, the plan was
-implemented straight on `main` rather than via the usual feature-branch +
-draft-PR flow (confirmed with the user up front).
+The three sessions below predate this guide being kept up to date as work
+happened — there's no preserved chat transcript for them, so unlike the
+sections above (which quote the actual prompts) these are reconstructed from
+`git log` and the diffs themselves. Commit hashes are exact; the framing
+around them is inferred from what each diff actually does.
+
+### Jun 28 afternoon — Resume swap, an early email-copy attempt, mobile header
+
+- Replaced the empty `docs/cv.pdf` placeholder with a real resume PDF, then
+  renamed the button label from "CV" to "Resume" and the file itself to
+  `gregory-w-robertson-resume.pdf`, over three small commits.
+  **Commits:** `e80650b`, `99835b9`, `4114aed`
+- A first attempt at a sidebar email click-to-copy chip: extended the
+  existing `SOCIALS` / `renderSocials()` config with a synthetic `email`
+  entry that rendered a copy-on-click chip instead of a link.
+  **Commit:** `a89b69b` — "Add click-to-copy email chip to sidebar social links"
+  — reverted minutes later. **Commit:** `3f76126` — "Revert ...". The
+  sidebar wouldn't get a working email chip again until the Jun 30
+  plan-driven batch below, which used a dedicated container instead of
+  repurposing the socials renderer.
+- Switched the Contact section's email link to the sans-serif body font
+  (`--font-sans`) "to normalize @ symbol" — the first fix for the
+  monospace font's stylized "@", applied here to the Contact section since
+  the sidebar attempt above had just been reverted and had no email chip to
+  fix.
+  **Commit:** `85204f5` — "Use sans-serif font for contact email to normalize @ symbol"
+- Mobile header switched from showing just the first name to the full name.
+  **Commit:** `7973cd6` — "Show full name in mobile header"
+- Resume PDF re-uploaded with edits.
+  **Commit:** `8203c14` — "Update resume PDF"
+
+### Jun 29 — Real content, new sections, bio polish
+
+- All placeholder content (bio, activities, publications, news) was
+  replaced with real resume data.
+  **Commit:** `9bf2f36` — "Update all content from placeholder to real resume data"
+- The site's section structure changed substantially: Research (working/
+  published papers) and News were removed, Education and Skills & Interests
+  were added, and Activities was split out as its own section. This
+  touched `index.html`, `js/main.js`, and `css/style.css` significantly,
+  and added `data/education.json` and `data/skills.json`.
+  `data/publications.json` and `data/news.json` were left in the repo but
+  are no longer fetched or rendered — see the project structure note in §8.
+  **Commit:** `273520a` — "Add Education and Skills sections, remove News, split Activities"
+- Several passes polishing the About bio wording and removing emoji from
+  the Activities category headers.
+  **Commits:** `a374df9`, `379c1ff`, `8f13700`
+- Activities content updated again, a left-border accent removed from
+  education cards, and another resume PDF update.
+  **Commit:** `415cf50` — "Update activities content, remove edu card left border, update resume PDF"
+- Skills & Interests content updates, and the grid locked to a fixed
+  2-column layout.
+  **Commits:** `d893d09`, `1ba586b`
+- The Contact section's intro paragraph was removed, then reverted minutes
+  later in the same session.
+  **Commits:** `a6d8007` → `d9d5f84` (revert)
+- One more Skills & Interests content pass.
+  **Commit:** `aa84308` — "Updated skills and interest section"
+
+### Jun 30 morning — Contact cleanup and dev environment setup
+
+- The Contact section's intro paragraph was removed again — this time it
+  stuck, along with two minor content tweaks elsewhere.
+  **Commit:** `1040410` — "updated site"
+- Set up a `uv`-managed Python project skeleton (`pyproject.toml`,
+  `main.py`, `.python-version`) and a pre-commit hook running `planners
+  validate` against `.planners/plans/*/plan.md` — laying the groundwork for
+  the plan-driven workflow used immediately afterward.
+  **Commit:** `9831d85` — "create virtual environment"
+
+### Jun 30 afternoon — Plan-driven update batch
+
+From here on the chat transcript is available again, so prompts below are
+quoted directly. This session adopted a lightweight planning workflow (the
+`planners` CLI/skill, state tracked under `.planners/`) for batching related
+changes into one reviewable unit instead of ad-hoc one-off edits. Since this
+repo's history is all direct commits to `main` with no branches or pull
+requests, the plan was implemented straight on `main` rather than via the
+usual feature-branch + draft-PR flow (confirmed with the user up front).
 
 **Prompt:** "add a bunch of website updates. Add an email click-to-copy button
 between the college of letters and sciences and the divider seperating it
@@ -257,7 +330,7 @@ rendered page. The plan was closed out with a `low`-effort `/code-review`
 pass (no issues found) and a Log/Retrospective appended to the plan file.
 **Commit:** `7479c39` — "plan [close]: 000 - ..."
 
-### Follow-up tweaks (same day)
+### Jun 30 afternoon — Follow-up tweaks
 
 A few smaller asks followed, each implemented and pushed directly:
 
