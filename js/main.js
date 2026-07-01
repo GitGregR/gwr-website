@@ -112,12 +112,8 @@ function renderProfile(p) {
   // Sidebar: email click-to-copy
   const sidebarEmailEl = document.getElementById('sidebar-email');
   if (sidebarEmailEl) {
-    // Space Mono's "@" glyph renders as a stylized swash; swap in a plain
-    // monospace fallback for just that character so it reads as a normal "@".
-    const [emailLocal, emailDomain] = (p.links.email || '').split('@');
-    const emailDisplay = `${esc(emailLocal)}<span class="email-at">@</span>${esc(emailDomain)}`;
     sidebarEmailEl.innerHTML = p.links.email
-      ? `<span class="social-chip btn-email-copy" data-email="${esc(p.links.email)}" role="button" tabindex="0" title="Click to copy email">${ICON.email} ${emailDisplay}</span>`
+      ? `<span class="social-chip btn-email-copy" data-email="${esc(p.links.email)}" role="button" tabindex="0" title="Click to copy email">${ICON.email} ${esc(p.links.email)}</span>`
       : '';
     wireEmailCopy(sidebarEmailEl.querySelector('.btn-email-copy'));
   }

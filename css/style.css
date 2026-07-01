@@ -147,11 +147,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   margin-top: .9rem;
 }
 .sidebar-email .social-chip { max-width: 100%; }
-.sidebar-email .email-at {
-  font-family: 'Courier New', monospace;
-  display: inline-block;
-  margin: 0 -.6em;
-}
 
 /* ── Sidebar: Rule ──────────────────────────────────── */
 .sidebar-rule {
