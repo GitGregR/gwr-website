@@ -114,6 +114,7 @@ function renderProfile(p) {
   if (sidebarEmailEl) {
     // Space Mono's "@" glyph renders as a stylized swash; swap in a plain
     // monospace fallback for just that character so it reads as a normal "@".
+    // Original swash rendering pinned at git tag `sidebar-email-at-original`.
     const [emailLocal, emailDomain] = (p.links.email || '').split('@');
     const emailDisplay = `${esc(emailLocal)}<span class="email-at">@</span>${esc(emailDomain)}`;
     sidebarEmailEl.innerHTML = p.links.email
